@@ -1,0 +1,9 @@
+function GameMenu(){
+
+}
+
+GameMenu.prototype = {
+
+
+	
+}
