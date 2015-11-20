@@ -3,12 +3,11 @@ function Game(){
 
 }
 	Game.prototype = {
-	preload: function (){
-	
-	},
 	create:function(){
 
 		initConfig();
+
+		createBackGround();
 	
 		createItems();
 
@@ -18,7 +17,8 @@ function Game(){
 		game.delayGeradorPlataforma = 1800;
 
 		showScore();
-		showSpeed();
+		pauseButton();
+		//showSpeed();
 
 		soundsConfig();
 
@@ -39,7 +39,7 @@ function Game(){
 		game.player.body.velocity.x = 0;
 
 		if(cursors.up.isDown && game.player.body.wasTouching.down){
-			game.player.body.velocity.y = -1300;
+			game.player.body.velocity.y = -1200;
 			game.player.frame = 0;
 		}
 
@@ -54,7 +54,7 @@ function Game(){
 			game.player.frame= 2;
 		}
 		game.itemsSpeed += 0.1;
-		game.labelVelocidade.text = game.itemsSpeed;
+		//game.labelVelocidade.text = game.itemsSpeed;
 		game.physics.arcade.overlap(game.player,game.coins,collectCoin,null,this);
 		}
 
@@ -64,11 +64,8 @@ function Game(){
 
 	function initConfig(){
 		//Tamanho dos tiles
-		game.tileWidth = game.cache.getImage('tile').width;
-		game.tileHeight = game.cache.getImage('tile').height;
-
-		//Fundo
-		game.add.sprite(0,0,'sky');
+		game.tileWidth = game.cache.getImage('normalTile').width;
+		game.tileHeight = game.cache.getImage('normalTile').height;
 
 		//Física
 		game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -76,7 +73,7 @@ function Game(){
 
 
 	
-		game.spacing = 3*game.tileHeight;
+		game.spacing = 3.8*game.tileHeight;
 
 
 		game.itemsSpeed = 150.0;
@@ -84,10 +81,49 @@ function Game(){
 
 	}
 
+ function createBackGround(){
+ 	var layer1 = game.add.group();
+ 	layer1.z = 0;
+
+ 	var layer2 = game.add.group();
+ 	layer2.z = 1;
+
+ 	var layer3 = game.add.group();
+ 	layer3.z = 2;
+
+ 	var layer4 = game.add.group();
+ 	layer4.z = 0;
+
+
+
+ 
+
+ 	var bg1 = game.add.sprite(0,0,'bgLayer1');
+ 	fitBackGroundToWorld(bg1);
+ 	layer1.add(bg1);
+
+
+ 	var bg2 = game.add.sprite(0,0,'bgLayer2');
+ 	fitBackGroundToWorld(bg2);
+ 	layer2.add(bg2);
+
+ 	var bg3 = game.add.sprite(0,0,'bgLayer3');
+ 	fitBackGroundToWorld(bg3);
+ 	layer3.add(bg3);
+
+
+ 	var bg4 = game.add.sprite(0,0,'bgLayer4');
+ 	fitBackGroundToWorld(bg4);
+ 	bg4.scale.setTo(0.4);
+ 	layer4.add(bg3); 	
+
+
+}
+
  function createItems(){
  	game.platforms = game.add.group();
 	game.platforms.enableBody = true;
-	game.platforms.createMultiple(250,'tile');
+
 
 
 	game.coins = game.add.group();
@@ -102,18 +138,25 @@ function Game(){
  }
 
 
-function addTile(x,y){
-	var tile = game.platforms.getFirstDead();
+function addTile(x,y,immovable){
+	var tile;
+	if(immovable){
+	 tile = game.platforms.create(x,y,'normalTile');
+	}else{
+	 tile = game.platforms.create(x,y,'brokenTile');	
+	}
 
 
-	tile.reset(x,y);
 	tile.body.velocity.y = game.itemsSpeed;
-	tile.body.immovable = true;
+	tile.body.immovable = immovable;
 
 	//Tile saindo da tela
 	tile.checkWorldBounds = true;
 	tile.outOfBoundsKill = true;
 }
+
+
+
 
 function addCoin(x,y){
 	
@@ -136,10 +179,13 @@ function addPlataform(y){
 
 	//Adiciona tiles até completar o numero de tiles necessarios para tela
 	for (var i = 0; i < tileNecessarios; i++) {
-	 	if(i != passagem ){
-	 		addTile(i * game.tileWidth,y);
-	 	}else {
+	 	if(i != passagem  && i%2 == 0 ){
+	 		addTile(i * game.tileWidth,y,true);
+	 	}else if(i != passagem ) {
+	 		addTile(i * game.tileWidth,y,false);
+	 	}else{
 	 		addCoin(i*game.tileWidth+(game.tileWidth/4),y);
+
 	 	}
 	 }; 
 }
@@ -149,8 +195,10 @@ function initPlatform(){
 	var base = game.world.height - game.tileHeight;
 	var topo = game.tileHeight;
 
-	for(var y = base; y >topo - game.tileHeight; y = y - game.spacing){
+	var y = topo;
+	while( y < base - game.tileHeight){
 		addPlataform(y);
+		y = y + game.spacing;
 	}
 
 
@@ -165,10 +213,16 @@ function platformGenerator(){
 	}
 }
 
+function fitBackGroundToWorld(bgSprite){
+	bgSprite.height = game.height;
+	bgSprite.width = game.width;
+}
 
 
 function createPlayer(){
 	game.player = game.add.sprite(game.world.centerX,game.world.height - (game.spacing * 2 + (3 * game.tileHeight)),'player');
+
+	game.player.scale.setTo(0.8);
 
 	game.player.anchor.setTo(0.5,1.0);
 
@@ -191,11 +245,30 @@ function createPlayer(){
 
 }
 
+function pauseButton(){
+
+	var fontePause = "30px Arial"
+	game.pauseButton = game.add.text(50,50,"Pause",{font:fontePause,fill:"#0000"});
+	game.pauseButton.anchor.setTo(0.5,0.5);
+	game.pauseButton.align = 'center';
+
+
+	game.pauseButton.inputEnabled = true;
+
+	game.pauseButton.events.onInputUp.add(function(target) {
+		game.paused=true;
+	})
+
+	game.input.onDown.add(function(){
+		game.paused=false;
+	});
+}
+
 
 function showScore(){
-	var fontePonto = "100px Arial";
+	var fontePonto = "100px Manamansalo";
 
-	game.scoreLabel = game.add.text((game.world.centerX),40,"0",{font:fontePonto,fill:"#006699"});
+	game.scoreLabel = game.add.text((game.width-40),40,"0",{font:fontePonto,fill:"#006699"});
 	game.scoreLabel.anchor.setTo(0.5,0.5);
 	game.scoreLabel.align = 'center';
 }
@@ -222,8 +295,8 @@ function scorePt(){
 }
 
 function updateDifficulty(){
-	if(game.score % 4 == 0 && game.score <36 ){
-		game.delayGeradorPlataforma -= 150;
+	if(game.score % 3 == 0 && game.score <36 ){
+		game.delayGeradorPlataforma -= 170;
 		game.scoreAntigo = game.score;
 	}
 		updatePlayerSpeed();
