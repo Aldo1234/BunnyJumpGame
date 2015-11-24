@@ -27,14 +27,23 @@ Main.prototype = {
 		game.load.image('brokenTile','assets/broken_dirt_grass.png');
 		game.load.spritesheet('player','assets/spriteSheetCoelho.png',44,70);
 		game.load.image('loadingBar','assets/loading.png');
-		game.load.image('sky', 'assets/sky.png');
 		game.load.spritesheet('moeda','assets/MoedaGirando.png',44,40);
-		game.load.audio('hitCoin','assets/sounds/ganharMoeda.wav');
 		game.load.image('coelhoLogo','assets/coelhoLogo.png');
+		
+
+		//Sounds
+		game.load.audio('hitCoin','assets/sounds/ganharMoeda.wav');
+		//BG
 		game.load.image('bgLayer1','assets/background/bg_layer1.png');
 		game.load.image('bgLayer2','assets/background/bg_layer2.png');
 		game.load.image('bgLayer3','assets/background/bg_layer3.png');
 		game.load.image('bgLayer4','assets/background/bg_layer4.png');
+
+		//icons
+		game.load.image('playIcon','assets/icons/play.png');
+		game.load.image('pauseIcon','assets/icons/pause.png');
+
+
 	},
 	preload:function(){
 		this.loadScripts();

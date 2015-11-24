@@ -29,7 +29,7 @@ function Game(){
 		//Colisão de player com plataformas
 		game.physics.arcade.collide(game.player,game.platforms);
 
-		if(game.player.body.position.y >= game.world.height - game.player.body.height){
+		if(game.player.body.position.y >= game.world.height + game.player.body.height + 5){
 			gameOver();
 		}
 
@@ -234,7 +234,7 @@ function createPlayer(){
 	game.player.body.bounce.y = 0.2;
 
 	//Colidir com os limites do canvas
-	game.player.body.collideWorldBounds = true;
+	game.player.body.checkWorldBounds = true;
 
 	//Velocidade
 	game.velocidadePlayer = 300;
@@ -247,8 +247,7 @@ function createPlayer(){
 
 function pauseButton(){
 
-	var fontePause = "30px Arial"
-	game.pauseButton = game.add.text(50,50,"Pause",{font:fontePause,fill:"#0000"});
+	game.pauseButton = game.add.sprite(50,50,'pauseIcon');
 	game.pauseButton.anchor.setTo(0.5,0.5);
 	game.pauseButton.align = 'center';
 
@@ -257,10 +256,12 @@ function pauseButton(){
 
 	game.pauseButton.events.onInputUp.add(function(target) {
 		game.paused=true;
+		game.pauseButton.loadTexture('playIcon');
 	})
 
 	game.input.onDown.add(function(){
 		game.paused=false;
+		game.pauseButton.loadTexture('pauseIcon');
 	});
 }
 
@@ -308,6 +309,5 @@ function updatePlayerSpeed(){
 
 function gameOver(){
 	game.player.kill();
-	game.gameOverLabel = game.add.text((game.world.width/5),(game.world.height/5),"Game Over",{font:"100px Arial",fill:"#000"});
-	game.state.start("Main");
+	game.state.start("Game");
 }
