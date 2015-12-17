@@ -1,5 +1,6 @@
 function Game(){
-
+	this.cursors = game.input.keyboard.createCursorKeys();
+	this.spaceBarKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 }
 	Game.prototype = {
@@ -18,7 +19,7 @@ function Game(){
 
 		showScore();
 		pauseButton();
-		//showSpeed();
+		showSpeed();
 
 		soundsConfig();
 
@@ -34,28 +35,25 @@ function Game(){
 		}
 
 
-		cursors = game.input.keyboard.createCursorKeys();
-
 		game.player.body.velocity.x = 0;
 
-		if(cursors.up.isDown && game.player.body.wasTouching.down){
+		if(this.spaceBarKey.isDown && game.player.body.wasTouching.down){
 			game.player.body.velocity.y = -1200;
 			game.player.frame = 0;
 		}
-
-		if(cursors.left.isDown){
+		if(this.cursors.left.isDown){
 			game.player.body.velocity.x = -game.velocidadePlayer;
 			game.player.animations.play('andarEsquerda')
-		}else if(cursors.right.isDown){
+		}else if(this.cursors.right.isDown){
 			game.player.body.velocity.x = +game.velocidadePlayer;
 			game.player.animations.play('andarDireita');
 		}else{
 			game.player.animations.stop();
 			game.player.frame= 2;
 		}
-		game.itemsSpeed += 0.1;
-		//game.labelVelocidade.text = game.itemsSpeed;
-		game.physics.arcade.overlap(game.player,game.coins,collectCoin,null,this);
+		game.itemsSpeed += 0.05;
+		game.labelVelocidade.text = game.itemsSpeed;
+		game.physics.arcade.overlap(game.player,game.carrots,collectCoin,null,this);
 		}
 
 
@@ -93,9 +91,6 @@ function Game(){
 
  	var layer4 = game.add.group();
  	layer4.z = 0;
-
-
-
  
 
  	var bg1 = game.add.sprite(0,0,'bgLayer1');
@@ -126,8 +121,8 @@ function Game(){
 
 
 
-	game.coins = game.add.group();
-	game.coins.enableBody = true;
+	game.carrots = game.add.group();
+	game.carrots.enableBody = true;
 
 	createPlayer();
 
@@ -145,12 +140,9 @@ function addTile(x,y,immovable){
 	}else{
 	 tile = game.platforms.create(x,y,'brokenTile');	
 	}
-
-
 	tile.body.velocity.y = game.itemsSpeed;
-	tile.body.immovable = immovable;
-
 	//Tile saindo da tela
+	tile.body.immovable = immovable;
 	tile.checkWorldBounds = true;
 	tile.outOfBoundsKill = true;
 }
@@ -158,12 +150,11 @@ function addTile(x,y,immovable){
 
 
 
-function addCoin(x,y){
+function addCarrot(x,y){
 	
-	var moeda = game.coins.create(x,y,'moeda');
-	moeda.animations.add('girar',[0,1,2,3,4,5,6,7,8,9],10,true);
+	var moeda = game.carrots.create(x,y,'carrot');
+	moeda.scale.setTo(0.6);
 	moeda.body.velocity.y = game.itemsSpeed;
-	moeda.animations.play('girar');
 	moeda.outOfBoundsKill = true;
 }
 
@@ -171,20 +162,17 @@ function addPlataform(y){
 	if(typeof(y) == "undefined"){
 		y = -game.tileHeight;
 	}
-	//Calcula quantos tiles necessarios(Math.ceil -> Arrendonda) para preencher a largur,a da tela 
 	var tileNecessarios = Math.ceil(game.world.width / game.tileWidth);
 
-	//Espaço por onde o jogador poderá passar
 	var passagem =  Math.floor(Math.random() * (tileNecessarios - 3)) + 1;
 
-	//Adiciona tiles até completar o numero de tiles necessarios para tela
 	for (var i = 0; i < tileNecessarios; i++) {
 	 	if(i != passagem  && i%2 == 0 ){
 	 		addTile(i * game.tileWidth,y,true);
 	 	}else if(i != passagem ) {
 	 		addTile(i * game.tileWidth,y,false);
 	 	}else{
-	 		addCoin(i*game.tileWidth+(game.tileWidth/4),y);
+	 		addCarrot(i*game.tileWidth+(game.tileWidth/4),y);
 
 	 	}
 	 }; 
@@ -220,6 +208,8 @@ function fitBackGroundToWorld(bgSprite){
 
 
 function createPlayer(){
+
+	game.player = 
 	game.player = game.add.sprite(game.world.centerX,game.world.height - (game.spacing * 2 + (3 * game.tileHeight)),'player');
 
 	game.player.scale.setTo(0.8);
@@ -267,9 +257,12 @@ function pauseButton(){
 
 
 function showScore(){
-	var fontePonto = "100px Manamansalo";
+	var fontePonto = "25px Manamansalo";
 
-	game.scoreLabel = game.add.text((game.width-40),40,"0",{font:fontePonto,fill:"#006699"});
+	game.scoreCarrot = game.add.sprite((game.width-40),10,'carrotIcon');
+	game.scoreCarrot.scale.setTo(0.6);
+
+	game.scoreLabel = game.add.text((game.width-50),25,"0",{font:fontePonto,fill:"#000000"});
 	game.scoreLabel.anchor.setTo(0.5,0.5);
 	game.scoreLabel.align = 'center';
 }
@@ -296,7 +289,7 @@ function scorePt(){
 }
 
 function updateDifficulty(){
-	if(game.score % 3 == 0 && game.score <36 ){
+	if(game.score % 3 == 0 && game.score <20 ){
 		game.delayGeradorPlataforma -= 170;
 		game.scoreAntigo = game.score;
 	}
@@ -304,7 +297,7 @@ function updateDifficulty(){
 	
 }
 function updatePlayerSpeed(){
-	game.velocidadePlayer += 10;
+	game.velocidadePlayer += 15;
 }
 
 function gameOver(){

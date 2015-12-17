@@ -7,7 +7,7 @@ Main.prototype = {
 		game.load.script('splash','js/states/splash.js');
 		game.load.script('game','js/states/game.js');
 		game.load.script('gameMenu','js/states/gameMenu.js');
-			
+
 	},
 	loadFonts:function(){
 		WebFontConfig ={
@@ -26,11 +26,10 @@ Main.prototype = {
 		game.load.image('normalTile','assets/dirt_grass.png');
 		game.load.image('brokenTile','assets/broken_dirt_grass.png');
 		game.load.spritesheet('player','assets/spriteSheetCoelho.png',44,70);
-		game.load.image('loadingBar','assets/loading.png');
-		game.load.spritesheet('moeda','assets/MoedaGirando.png',44,40);
-		game.load.image('coelhoLogo','assets/coelhoLogo.png');
+		game.load.image('carrot','assets/carrot.png');
+		game.load.image('carrotIcon','assets/carrots.png');
 		
-
+		
 		//Sounds
 		game.load.audio('hitCoin','assets/sounds/ganharMoeda.wav');
 		//BG
