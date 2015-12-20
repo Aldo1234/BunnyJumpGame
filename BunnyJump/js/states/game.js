@@ -1,6 +1,7 @@
 function Game(){
 	this.cursors = game.input.keyboard.createCursorKeys();
 	this.spaceBarKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+	this.gameUtility = new Utility(game);
 
 }
 	Game.prototype = {
@@ -8,7 +9,7 @@ function Game(){
 
 		initConfig();
 
-		createBackGround();
+		this.gameUtility.createBackGround();
 	
 		createItems();
 
@@ -17,8 +18,8 @@ function Game(){
 
 		game.delayGeradorPlataforma = 1800;
 
-		showScore();
-		pauseButton();
+		this.gameUtility.showScore();
+		this.gameUtility.pauseButton();
 		showSpeed();
 
 		soundsConfig();
@@ -28,7 +29,8 @@ function Game(){
 	update : function(){
 		platformGenerator();
 		//Colisão de player com plataformas
-		game.physics.arcade.collide(game.player,game.platforms);
+		game.physics.arcade.collide(game.player,game.normalTileGroup);
+		game.physics.arcade.collide(game.player,game.brokenTileGroup,collisionCallBack);
 
 		if(game.player.body.position.y >= game.world.height + game.player.body.height + 5){
 			gameOver();
@@ -79,45 +81,40 @@ function Game(){
 
 	}
 
- function createBackGround(){
- 	var layer1 = game.add.group();
- 	layer1.z = 0;
 
- 	var layer2 = game.add.group();
- 	layer2.z = 1;
+function createPlayer(){
 
- 	var layer3 = game.add.group();
- 	layer3.z = 2;
+	game.player = game.add.sprite(game.world.centerX,game.world.height - (game.spacing * 2 + (3 * game.tileHeight)),'player');
 
- 	var layer4 = game.add.group();
- 	layer4.z = 0;
- 
+	game.player.scale.setTo(0.8);
 
- 	var bg1 = game.add.sprite(0,0,'bgLayer1');
- 	fitBackGroundToWorld(bg1);
- 	layer1.add(bg1);
+	game.player.anchor.setTo(0.5,1.0);
 
+	game.physics.arcade.enable(game.player);
 
- 	var bg2 = game.add.sprite(0,0,'bgLayer2');
- 	fitBackGroundToWorld(bg2);
- 	layer2.add(bg2);
+	game.player.body.gravity.y = 2000;
 
- 	var bg3 = game.add.sprite(0,0,'bgLayer3');
- 	fitBackGroundToWorld(bg3);
- 	layer3.add(bg3);
+	//Faz o jogador quicar um pouco
+	game.player.body.bounce.y = 0.2;
 
+	//Colidir com os limites do canvas
+	game.player.body.checkWorldBounds = true;
 
- 	var bg4 = game.add.sprite(0,0,'bgLayer4');
- 	fitBackGroundToWorld(bg4);
- 	bg4.scale.setTo(0.4);
- 	layer4.add(bg3); 	
+	//Velocidade
+	game.velocidadePlayer = 300;
+
+	game.player.animations.add('andarEsquerda',[0,1],10,true);
+	game.player.animations.add('andarDireita',[3,4],10,true);
 
 
 }
 
  function createItems(){
- 	game.platforms = game.add.group();
-	game.platforms.enableBody = true;
+ 	game.normalTileGroup = game.add.group();
+	game.normalTileGroup.enableBody = true;
+
+	game.brokenTileGroup = game.add.group();
+	game.brokenTileGroup.enableBody = true;
 
 
 
@@ -126,7 +123,8 @@ function Game(){
 
 	createPlayer();
 
- }	
+ }
+
 
  function soundsConfig(){
  	game.hitCoinSound = game.add.audio('hitCoin');
@@ -136,15 +134,17 @@ function Game(){
 function addTile(x,y,immovable){
 	var tile;
 	if(immovable){
-	 tile = game.platforms.create(x,y,'normalTile');
+	 tile = game.normalTileGroup.create(x,y,'normalTile');
 	}else{
-	 tile = game.platforms.create(x,y,'brokenTile');	
+	 tile = game.brokenTileGroup.create(x,y,'brokenTile');	
 	}
 	tile.body.velocity.y = game.itemsSpeed;
-	//Tile saindo da tela
-	tile.body.immovable = immovable;
+	tile.body.immovable = true;
+	tile.body.allowGravity = true;
+
 	tile.checkWorldBounds = true;
 	tile.outOfBoundsKill = true;
+
 }
 
 
@@ -201,71 +201,6 @@ function platformGenerator(){
 	}
 }
 
-function fitBackGroundToWorld(bgSprite){
-	bgSprite.height = game.height;
-	bgSprite.width = game.width;
-}
-
-
-function createPlayer(){
-
-	game.player = 
-	game.player = game.add.sprite(game.world.centerX,game.world.height - (game.spacing * 2 + (3 * game.tileHeight)),'player');
-
-	game.player.scale.setTo(0.8);
-
-	game.player.anchor.setTo(0.5,1.0);
-
-	game.physics.arcade.enable(game.player);
-
-	game.player.body.gravity.y = 2000;
-
-	//Faz o jogador quicar um pouco
-	game.player.body.bounce.y = 0.2;
-
-	//Colidir com os limites do canvas
-	game.player.body.checkWorldBounds = true;
-
-	//Velocidade
-	game.velocidadePlayer = 300;
-
-	game.player.animations.add('andarEsquerda',[0,1],10,true);
-	game.player.animations.add('andarDireita',[3,4],10,true);
-
-
-}
-
-function pauseButton(){
-
-	game.pauseButton = game.add.sprite(50,50,'pauseIcon');
-	game.pauseButton.anchor.setTo(0.5,0.5);
-	game.pauseButton.align = 'center';
-
-
-	game.pauseButton.inputEnabled = true;
-
-	game.pauseButton.events.onInputUp.add(function(target) {
-		game.paused=true;
-		game.pauseButton.loadTexture('playIcon');
-	})
-
-	game.input.onDown.add(function(){
-		game.paused=false;
-		game.pauseButton.loadTexture('pauseIcon');
-	});
-}
-
-
-function showScore(){
-	var fontePonto = "25px Manamansalo";
-
-	game.scoreCarrot = game.add.sprite((game.width-40),10,'carrotIcon');
-	game.scoreCarrot.scale.setTo(0.6);
-
-	game.scoreLabel = game.add.text((game.width-50),25,"0",{font:fontePonto,fill:"#000000"});
-	game.scoreLabel.anchor.setTo(0.5,0.5);
-	game.scoreLabel.align = 'center';
-}
 
 function showSpeed(){
 	//MÉTODO DE DEBUG
@@ -295,6 +230,14 @@ function updateDifficulty(){
 	}
 		updatePlayerSpeed();
 	
+}
+
+function collisionCallBack(playerSprite,tileGroup){
+	if(tileGroup.body.touching.up){
+		tileGroup.body.immovable = false;
+		tileGroup.body.allowGravity = true;
+	}
+
 }
 function updatePlayerSpeed(){
 	game.velocidadePlayer += 15;

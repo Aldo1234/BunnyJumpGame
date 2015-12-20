@@ -2,13 +2,6 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game',Main = function(){});
 
 
 Main.prototype = {
-	loadScripts:function(){
-		game.load.script('gameUtils','js/gameUtils.js');
-		game.load.script('splash','js/states/splash.js');
-		game.load.script('game','js/states/game.js');
-		game.load.script('gameMenu','js/states/gameMenu.js');
-
-	},
 	loadFonts:function(){
 		WebFontConfig ={
 			custom:{
@@ -45,7 +38,6 @@ Main.prototype = {
 
 	},
 	preload:function(){
-		this.loadScripts();
 		this.loadStates();
 		this.loadFonts();
 		this.loadAssets();
