@@ -71,7 +71,37 @@ Utility.prototype = {
 	this.game.scoreLabel.anchor.setTo(0.5,0.5);
 	this.game.scoreLabel.align = 'center';
 
+   },
+   createVisualControls:function(){
+   	var gameWidth = this.game.width;
+   	var gameHeight = this.game.height;
+
+   	this.game.leftButton = this.game.add.sprite(10,gameHeight-80,"leftButton");
+   	this.game.leftButton.scale.setTo(1.5);
+
+
+   	this.game.rightButton = this.game.add.sprite(90,gameHeight-80,"rightButton");
+   	this.game.rightButton.scale.setTo(1.5);
+
+   	this.game.jumpButton = this.game.add.sprite(gameWidth-90,gameHeight-80,"jumpButton");
+   	this.game.jumpButton.scale.setTo(1.5);
+   },
+   visualControlsFunctions:function(){
+
+  	[this.game.leftButton,this.game.rightButton,this.game.jumpButton].forEach(function(bt){
+  		bt.inputEnabled=true;
+  		bt.events.onInputDown.add(function(){
+  			bt.isDown = true;
+  			console.log(bt.isDown);
+  		});
+  		bt.events.onInputUp.add(function(){
+  			bt.isDown = false;
+  			console.log(bt.isDown);
+  		});
+  	});
+
    }
+
 
 
 }

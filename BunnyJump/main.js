@@ -1,4 +1,4 @@
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game',Main = function(){});
+var game = new Phaser.Game(900, 600, Phaser.AUTO, 'game',Main = function(){});
 
 
 Main.prototype = {
@@ -34,6 +34,12 @@ Main.prototype = {
 		//icons
 		game.load.image('playIcon','assets/icons/play.png');
 		game.load.image('pauseIcon','assets/icons/pause.png');
+
+		//Buttons
+		game.load.image('leftButton','assets/controlIcons/arrowLeft.png');
+		game.load.image('rightButton','assets/controlIcons/arrowRight.png');
+		game.load.image('jumpButton','assets/controlIcons/arrowUp.png');
+
 
 
 	},
