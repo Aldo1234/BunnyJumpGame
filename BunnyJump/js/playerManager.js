@@ -15,12 +15,10 @@ PlayerManager.prototype = {
 			game.physics.arcade.enable(this.player);
 
 			this.player.body.gravity.y = 2000;
+			this.player.body.collideWorldBounds = true;
 
-			//Faz o jogador quicar um pouco
 			this.player.body.bounce.y = 0.2;
 
-			//Colidir com os limites do canvas
-			this.player.body.checkWorldBounds = true;
 
 			this.createAnimations();
 

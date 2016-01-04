@@ -26,7 +26,7 @@ function Game(){
 
 		this.gameUtility.showScore();
 		this.gameUtility.pauseButton();
-		this.showSpeed();
+		//this.showSpeed();
 
 		this.soundsConfig();
 
@@ -38,30 +38,16 @@ function Game(){
 		game.physics.arcade.collide(this.playerManager.player,game.normalTileGroup);
 		game.physics.arcade.collide(this.playerManager.player,game.brokenTileGroup,this.collisionCallBack);
 
-		if(this.playerManager.player.body.position.y >= game.world.height + this.playerManager.player.body.height + 5){
-			this.gameOver();
-		}
-
-		if((this.spaceBarKey.isDown || this.game.jumpButton.isDown) && this.playerManager.player.body.wasTouching.down){
-			this.playerManager.jump();
-		}
-		if(this.cursors.left.isDown || this.game.leftButton.isDown){
-			this.playerManager.goLeft();
-		}else if(this.cursors.right.isDown || this.game.rightButton.isDown){
-			this.playerManager.goRight();
-		}else{
-			this.playerManager.stop();
-		}
+		this.playerMotionLogic();
 		
 		game.itemsSpeed += 0.05;
-		game.labelVelocidade.text = game.itemsSpeed;
+		//game.labelVelocidade.text = game.itemsSpeed;
 		game.physics.arcade.overlap(this.playerManager.player,game.carrots,this.collectCarrot,null,this);
 		
 	},
 
 	initConfig:function(){
 
-		
 		//Tamanho dos tiles
 		game.tileWidth = game.cache.getImage('normalTile').width;
 		game.tileHeight = game.cache.getImage('normalTile').height;
@@ -94,8 +80,24 @@ function Game(){
 		game.carrots.enableBody = true;
 
  	},
+ 	playerMotionLogic:function(){
+ 		if(this.playerManager.player.body.y == game.world.height - this.playerManager.player.height){
+ 			this.playerManager.player.body.collideWorldBounds = false;
+ 			this.gameUtility.gameOverMenu(this.playerManager);
+		}
+		if((this.spaceBarKey.isDown || this.game.jumpButton.isDown) && this.playerManager.player.body.wasTouching.down){
+			this.playerManager.jump();
+		}
+		if((this.cursors.left.isDown || this.game.leftButton.isDown) && (this.playerManager.player.x >= this.playerManager.player.width)){
+			this.playerManager.goLeft();
 
+		}else if((this.cursors.right.isDown || this.game.rightButton.isDown) && (this.playerManager.player.x < (game.width - this.playerManager.player.width))){
+			this.playerManager.goRight();
+		}else{
+			this.playerManager.stop();
+		}
 
+ 	},
  	soundsConfig:function() {
  		game.hitCoinSound = game.add.audio('hitCoin');
  	},
@@ -112,12 +114,9 @@ function Game(){
 		tile.body.immovable = true;
 		tile.body.allowGravity = true;
 
-		tile.checkWorldBounds = true;
 		tile.outOfBoundsKill = true;
 
 	},
-
-
 
 
 	addCarrot:function(x,y){
@@ -203,11 +202,12 @@ function Game(){
 
 	},
 	updatePlayerSpeed:function(){
-		game.velocidadePlayer += 15;
+		this.playerManager.playerSpeed+= 15;
 	},
 
 	gameOver:function(){
 		this.playerManager.player.kill();
-		game.state.start("Game");
+		this.playerManager.playerSpeed =300;
+		game.state.restart();
 	}
 }

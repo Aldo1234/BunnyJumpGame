@@ -1,5 +1,6 @@
-function Utility(game){
+function Utility(game,playerManager){
 	this.game = game;
+	this.playerManager = playerManager;
 }
 
 Utility.prototype = {
@@ -39,14 +40,14 @@ Utility.prototype = {
 
    },
 
-   fitBackGroundToWorld:function(bgSprite){
+  fitBackGroundToWorld:function(bgSprite){
    	bgSprite.height = game.height;
-	bgSprite.width = game.width;
+  	bgSprite.width = game.width;
    },
    pauseButton:function(){
    	this.game.pauseButton = game.add.sprite(50,50,'pauseIcon');
-	this.game.pauseButton.anchor.setTo(0.5,0.5);
-	this.game.pauseButton.align = 'center';
+	  this.game.pauseButton.anchor.setTo(0.5,0.5);
+	  this.game.pauseButton.align = 'center';
 
 
 	this.game.pauseButton.inputEnabled = true;
@@ -62,12 +63,11 @@ Utility.prototype = {
 	});
    },
    showScore:function(){
-   	var fontePonto = "25px Manamansalo";
 
 	this.game.scoreCarrot = game.add.sprite((game.width-40),10,'carrotIcon');
 	this.game.scoreCarrot.scale.setTo(0.6);
 
-	this.game.scoreLabel = game.add.text((game.width-50),25,"0",{font:fontePonto,fill:"#000000"});
+	this.game.scoreLabel = game.add.text((game.width-50),25,"0",{font:"25px Manamansalo",fill:"#000000"});
 	this.game.scoreLabel.anchor.setTo(0.5,0.5);
 	this.game.scoreLabel.align = 'center';
 
@@ -76,15 +76,19 @@ Utility.prototype = {
    	var gameWidth = this.game.width;
    	var gameHeight = this.game.height;
 
-   	this.game.leftButton = this.game.add.sprite(10,gameHeight-80,"leftButton");
+    var leftButtonImage = this.game.cache.getImage("leftButton");
+    var rightButtonImage = this.game.cache.getImage("rightButton");
+    var jumpButtonImage = this.game.cache.getImage("jumpButton");
+
+   	this.game.leftButton = this.game.add.sprite(10,gameHeight - (leftButtonImage.height+30),"leftButton");
    	this.game.leftButton.scale.setTo(1.5);
 
-
-   	this.game.rightButton = this.game.add.sprite(90,gameHeight-80,"rightButton");
+   	this.game.rightButton = this.game.add.sprite(200,gameHeight-(rightButtonImage.height +30),"rightButton");
    	this.game.rightButton.scale.setTo(1.5);
 
-   	this.game.jumpButton = this.game.add.sprite(gameWidth-90,gameHeight-80,"jumpButton");
+   	this.game.jumpButton = this.game.add.sprite((gameWidth-(jumpButtonImage.width+30)),(gameHeight-(jumpButtonImage.height+30)),"jumpButton");
    	this.game.jumpButton.scale.setTo(1.5);
+
    },
    visualControlsFunctions:function(){
 
@@ -99,6 +103,27 @@ Utility.prototype = {
   			console.log(bt.isDown);
   		});
   	});
+
+   },
+   gameOverMenu:function(playerManager){
+   	var gameWidth = this.game.width;
+   	var gameHeight = this.game.height;
+
+
+   	var finalScoreLabel = this.game.add.text((gameWidth/2),(gameHeight/3),{font:"50px Arial",fill:"#0000"});
+   	finalScoreLabel.text = this.game.score;
+
+
+
+   	var repeatButton = this.game.add.sprite(gameWidth/2,gameHeight/2,"restartIcon");
+   	repeatButton.anchor.setTo(0.5);
+
+   	repeatButton.inputEnabled = true;
+   	repeatButton.events.onInputDown.add(function(){
+   		playerManager.playerSpeed = 300;
+   		this.game.state.start('Game');
+   	});
+
 
    }
 

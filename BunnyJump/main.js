@@ -1,7 +1,14 @@
-var game = new Phaser.Game(900, 600, Phaser.AUTO, 'game',Main = function(){});
+
+var width = navigator.isCocoonJS ? window.innerWidth : 900;
+var height = navigator.isCocoonJS ? window.innerHeight : 600;
+
+var game = new Phaser.Game(width, height, Phaser.AUTO, 'game',Main = function(){});
 
 
 Main.prototype = {
+	loadScripts:function(){
+		var teste = game.load.script("playerManager.js","js/components/playerManager.js");
+	},
 	loadFonts:function(){
 		WebFontConfig ={
 			custom:{
@@ -34,6 +41,9 @@ Main.prototype = {
 		//icons
 		game.load.image('playIcon','assets/icons/play.png');
 		game.load.image('pauseIcon','assets/icons/pause.png');
+		game.load.image('restartIcon','assets/icons/return.png');
+		game.load.image('concedeIcon','assets/icons/cross.png');
+
 
 		//Buttons
 		game.load.image('leftButton','assets/controlIcons/arrowLeft.png');
@@ -44,6 +54,7 @@ Main.prototype = {
 
 	},
 	preload:function(){
+		this.loadScripts();
 		this.loadStates();
 		this.loadFonts();
 		this.loadAssets();
