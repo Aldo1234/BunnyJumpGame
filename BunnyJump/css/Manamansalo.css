@@ -1,4 +1,7 @@
 @font-face{
-	font-family: "Manamansalo";
-	src:url('fonts/Manamansalo.ttf');
+	font-family: "manamansalo";
+	src:url('fonts/Manamansalo.ttf')format(truetype);
+
+	font-weight: normal;
+	font-style: normal;
 }

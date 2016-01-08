@@ -3,19 +3,17 @@ var width = navigator.isCocoonJS ? window.innerWidth : 900;
 var height = navigator.isCocoonJS ? window.innerHeight : 600;
 
 var game = new Phaser.Game(width, height, Phaser.AUTO, 'game',Main = function(){});
-
+var GAME_UTILITY = new Utility(game);
+ 
 
 Main.prototype = {
-	loadScripts:function(){
-		var teste = game.load.script("playerManager.js","js/components/playerManager.js");
-	},
 	loadFonts:function(){
-		WebFontConfig ={
-			custom:{
-				families:['Manamansalo'],
-				urls:['css/Manamansalo.css']
-			}
-		}
+		var teste = game.add.text(0,0,{font:'manamansalo'});
+		game.time.events.add(1000,teste.text="o");
+	},
+	loadScripts:function(){
+		var teste2 = game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
+
 	},
 	loadStates:function(){
 		game.state.add('Splash',Splash);
@@ -26,6 +24,7 @@ Main.prototype = {
 		game.load.image('normalTile','assets/dirt_grass.png');
 		game.load.image('brokenTile','assets/broken_dirt_grass.png');
 		game.load.spritesheet('player','assets/spriteSheetCoelho.png',44,70);
+		game.load.image('bunnyLogo','assets/coelhoLogo.png');
 		game.load.image('carrot','assets/carrot.png');
 		game.load.image('carrotIcon','assets/carrots.png');
 		
@@ -54,13 +53,13 @@ Main.prototype = {
 
 	},
 	preload:function(){
+		this.loadFonts();
 		this.loadScripts();
 		this.loadStates();
-		this.loadFonts();
 		this.loadAssets();
 	},
 
 	create:function(){
-		game.state.start('Game');
+		game.state.start('GameMenu');
 	}
 }

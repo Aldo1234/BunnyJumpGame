@@ -1,5 +1,4 @@
-function PlayerManager(game){
-	this.game=game;
+function PlayerManager(){
 	this.playerSpeed = 300;
 	this.player = null;
 }
@@ -7,7 +6,7 @@ function PlayerManager(game){
 PlayerManager.prototype = {
 
 		createPlayer:function(x,y){
-			this.player = this.game.add.sprite(game.world.centerX,game.world.height - (game.spacing * 2 + (3 * game.tileHeight)),'player');
+			this.player = game.add.sprite(game.world.centerX,game.world.height - (game.spacing * 2 + (3 * game.tileHeight)),'player');
 			this.player.scale.setTo(0.8);
 
 			this.player.anchor.setTo(0.5,1.0);

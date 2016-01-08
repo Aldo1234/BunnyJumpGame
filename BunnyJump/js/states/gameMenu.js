@@ -1,38 +1,40 @@
 function GameMenu(){
-
+	this.gameUtility = GAME_UTILITY;
 }
 
 GameMenu.prototype = {
 
-
-	preload:function(){
-
-	}, 
-
 	create:function(){
-		game.add.sprite(0,0,'sky');
-
-		game.add.text(game.width/6,game.height/(game.height-100),"Bunny JUMP", {font:'60pt Manamansalo',fill:'white',align:'left'});
-		this.createMenuNavigation();
+		this.gameUtility.createBackGround();		
+		this.logoAnimation();
+		this.playButton();		
 
 	},
+	logoAnimation:function(){
+		var rabbitLogo = game.add.sprite((game.width/2),0,'bunnyLogo');
+		rabbitLogo.anchor.setTo(0.5);
 
-	createMenuNavigation:function(){
-		var startOption;
+		game.physics.arcade.enable(rabbitLogo);
+		rabbitLogo.body.gravity.y = 2000;
+		rabbitLogo.body.collideWorldBounds = true;
 
-		startOption = game.add.text(game.world.width,game.height/2,'Start',{font:'40pt Manamansalo',fill :'white', align:'left'});
+		rabbitLogo.body.bounce.y = Math.random();
+	},
+	playButton:function(){
+		var playBt = game.add.text(game.width/2,game.height/2);
+		playBt.anchor.setTo(0.5);
+		playBt.font ="manamansalo";
+		playBt.text = "Play";
+		playBt.fontSize = "50px";
+		playBt.fill = "#0000";
+		playBt.inputEnabled = true;
 
-		startOption.inputEnabled = true;
 
-		startOption.events.onInputOver.add(function(target) {
-			target.fill = "00000"
+		playBt.events.onInputDown.add(function(){
+			game.state.start("Game");
 		})
-
-		startOption.events.onInputOut.add(function(target) {
-			target.fill = "white"
-		})
-
-		startOption.events.onInputUp.add(function() { game.state.start("Game")});
 	}
+
+
 	
 }

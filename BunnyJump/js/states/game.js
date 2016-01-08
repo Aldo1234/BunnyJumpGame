@@ -1,8 +1,8 @@
 function Game(){
 	this.cursors = game.input.keyboard.createCursorKeys();
 	this.spaceBarKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-	this.playerManager = new PlayerManager(game);
-	this.gameUtility = new Utility(game);
+	this.playerManager = new PlayerManager();
+	this.gameUtility = GAME_UTILITY;
 
 }
 	Game.prototype = {
