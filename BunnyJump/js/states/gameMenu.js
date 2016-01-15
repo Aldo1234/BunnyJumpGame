@@ -7,7 +7,7 @@ GameMenu.prototype = {
 	create:function(){
 		this.gameUtility.createBackGround();		
 		this.logoAnimation();
-		this.playButton();		
+		this.playButton();	
 
 	},
 	logoAnimation:function(){
@@ -18,23 +18,21 @@ GameMenu.prototype = {
 		rabbitLogo.body.gravity.y = 2000;
 		rabbitLogo.body.collideWorldBounds = true;
 
-		rabbitLogo.body.bounce.y = Math.random();
+		rabbitLogo.body.bounce.y = 0.8;
 	},
 	playButton:function(){
 		var playBt = game.add.text(game.width/2,game.height/2);
-		playBt.anchor.setTo(0.5);
 		playBt.font ="manamansalo";
 		playBt.text = "Play";
-		playBt.fontSize = "50px";
-		playBt.fill = "#0000";
+		playBt.anchor.setTo(0.5);
+		playBt.fontSize = "200px";
+		playBt.fill = "#339900";
 		playBt.inputEnabled = true;
 
 
 		playBt.events.onInputDown.add(function(){
 			game.state.start("Game");
-		})
-	}
-
-
+		});
+	},
 	
 }

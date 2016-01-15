@@ -26,7 +26,6 @@ function Game(){
 
 		this.gameUtility.showScore();
 		this.gameUtility.pauseButton();
-		//this.showSpeed();
 
 		this.soundsConfig();
 
@@ -41,8 +40,9 @@ function Game(){
 		this.playerMotionLogic();
 		
 		game.itemsSpeed += 0.05;
-		//game.labelVelocidade.text = game.itemsSpeed;
 		game.physics.arcade.overlap(this.playerManager.player,game.carrots,this.collectCarrot,null,this);
+
+
 		
 	},
 
@@ -81,20 +81,26 @@ function Game(){
 
  	},
  	playerMotionLogic:function(){
- 		if(this.playerManager.player.body.y == game.world.height - this.playerManager.player.height){
- 			this.playerManager.player.body.collideWorldBounds = false;
- 			this.gameUtility.gameOverMenu(this.playerManager);
-		}
-		if((this.spaceBarKey.isDown || this.game.jumpButton.isDown) && this.playerManager.player.body.wasTouching.down){
-			this.playerManager.jump();
-		}
-		if((this.cursors.left.isDown || this.game.leftButton.isDown) && (this.playerManager.player.x >= this.playerManager.player.width)){
-			this.playerManager.goLeft();
+ 		
+		if(this.playerManager.player.alive){
+			if(this.playerManager.player.body.y == game.world.height - this.playerManager.player.height){
+ 				this.playerManager.player.kill();
+ 				if(navigator.vibrate){
+ 			 	 navigator.vibrate(200);
+ 				}
+ 				this.gameUtility.gameOverMenu(this.playerManager);
+			}
+			if((this.spaceBarKey.isDown || this.game.jumpButton.isDown) && this.playerManager.player.body.wasTouching.down){
+				this.playerManager.jump();
+			}
+			if((this.cursors.left.isDown || this.game.leftButton.isDown) && (this.playerManager.player.x >= this.playerManager.player.width)){
+				this.playerManager.goLeft();
 
-		}else if((this.cursors.right.isDown || this.game.rightButton.isDown) && (this.playerManager.player.x < (game.width - this.playerManager.player.width))){
-			this.playerManager.goRight();
-		}else{
-			this.playerManager.stop();
+			}else if((this.cursors.right.isDown || this.game.rightButton.isDown) && (this.playerManager.player.x < (game.width - this.playerManager.player.width))){
+				this.playerManager.goRight();
+			}else{
+				this.playerManager.stop();
+			}
 		}
 
  	},

@@ -41,7 +41,7 @@ PlayerManager.prototype = {
 		},
 		stop:function(){
 			this.player.animations.stop();
-			this.player.frame=2;
+			this.player.frame= 2;
 			this.player.body.velocity.x = 0;
 		}
 
