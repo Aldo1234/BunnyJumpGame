@@ -95,17 +95,21 @@ function Game(){
 			}
 			if((this.cursors.left.isDown || this.game.leftButton.isDown) && (this.playerManager.player.x >= this.playerManager.player.width)){
 				this.playerManager.goLeft();
+				this.playerManager.accelerate();
 
 			}else if((this.cursors.right.isDown || this.game.rightButton.isDown) && (this.playerManager.player.x < (game.width - this.playerManager.player.width))){
 				this.playerManager.goRight();
+				this.playerManager.accelerate();
+
 			}else{
 				this.playerManager.stop();
+				this.playerManager.resetSpeed();
 			}
-		}
+		}   
 
  	},
  	soundsConfig:function() {
- 		game.hitCoinSound = game.add.audio('hitCoin');
+ 		game.hitCarrotSound = game.add.audio('hitCoin');
  	},
 
 
@@ -184,7 +188,7 @@ function Game(){
 		carrot.kill();
 		this.scorePt();
 		this.updateDifficulty();
-		game.hitCoinSound.play();
+		game.hitCarrotSound.play();
 	},
 
 	scorePt:function(){
@@ -197,7 +201,6 @@ function Game(){
 			game.delayGeradorPlataforma -= 170;
 			game.scoreAntigo = game.score;
 		}
-			this.updatePlayerSpeed();
 	},
 
 	 collisionCallBack:function(playerSprite,tileGroup){
@@ -207,10 +210,6 @@ function Game(){
 		}
 
 	},
-	updatePlayerSpeed:function(){
-		this.playerManager.playerSpeed+= 15;
-	},
-
 	gameOver:function(){
 		this.playerManager.player.kill();
 		this.playerManager.playerSpeed =300;

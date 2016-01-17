@@ -43,6 +43,12 @@ PlayerManager.prototype = {
 			this.player.animations.stop();
 			this.player.frame= 2;
 			this.player.body.velocity.x = 0;
+		},
+		resetSpeed:function(){
+			this.playerSpeed = 300;
+		},
+		accelerate:function(){
+			this.playerSpeed += 3;
 		}
 
 }
