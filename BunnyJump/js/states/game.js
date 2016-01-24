@@ -42,8 +42,6 @@ function Game(){
 		game.itemsSpeed += 0.05;
 		game.physics.arcade.overlap(this.playerManager.player,game.carrots,this.collectCarrot,null,this);
 
-
-		
 	},
 
 	initConfig:function(){
@@ -56,7 +54,7 @@ function Game(){
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		game.tempoInicio = game.time.now;
 
-
+		game.playerJumped = true;	
 	
 		game.spacing = 3.8*game.tileHeight;
 
@@ -65,7 +63,6 @@ function Game(){
 		game.score = 0;
 
 	},
-
     createGroups:function(){
 
 	 	game.normalTileGroup = game.add.group();
@@ -92,6 +89,7 @@ function Game(){
 			}
 			if((this.spaceBarKey.isDown || this.game.jumpButton.isDown) && this.playerManager.player.body.wasTouching.down){
 				this.playerManager.jump();
+				game.playerJumped = true;
 			}
 			if((this.cursors.left.isDown || this.game.leftButton.isDown) && (this.playerManager.player.x >= this.playerManager.player.width)){
 				this.playerManager.goLeft();
@@ -109,9 +107,8 @@ function Game(){
 
  	},
  	soundsConfig:function() {
- 		game.hitCarrotSound = game.add.audio('hitCoin');
+ 		game.hitCarrotSound = game.add.audio('hitCarrot');
  	},
-
 
 	addTile:function(x,y,immovable){
 		var tile;

@@ -48,7 +48,7 @@ PlayerManager.prototype = {
 			this.playerSpeed = 300;
 		},
 		accelerate:function(){
-			this.playerSpeed += 3;
+			this.playerSpeed += 4.5;
 		}
 
 }

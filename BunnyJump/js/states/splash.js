@@ -9,7 +9,9 @@ Splash.prototype = {
 		game.state.add('GameMenu',GameMenu);
 	},
 	loadSounds:function(){
-		game.load.audio('hitCoin','assets/sounds/ganharMoeda.wav');
+		game.load.audio('hitCarrot','assets/sounds/hitCarrot.wav')
+		game.load.audio('pressButton','assets/sounds/pressButton.wav');
+
 	},
 	loadImages:function(){
 		game.load.image('normalTile','assets/dirt_grass.png');
@@ -33,10 +35,6 @@ Splash.prototype = {
 		game.load.image('leftButton_down','assets/controlIcons/arrowLeft_down.png');
 		game.load.image('rightButton_down','assets/controlIcons/arrowRight_down.png');
 		game.load.image('jumpButton_down','assets/controlIcons/arrowUp_down.png');
-			
-			
-			
-
 	},
 
 	preload:function(){

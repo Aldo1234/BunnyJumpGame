@@ -3,12 +3,14 @@ function GameMenu(){
 }
 
 GameMenu.prototype = {
-
+	preload:function(){
+		game.pressButton = game.add.audio('pressButton');
+	},
 	create:function(){
 		this.gameUtility.createBackGround();		
 		this.logoAnimation();
-		this.playButton();	
-
+		this.carrotsAnimation();
+		this.playButton();
 	},
 	logoAnimation:function(){
 		var rabbitLogo = game.add.sprite((game.width/2),0,'bunnyLogo');
@@ -18,7 +20,17 @@ GameMenu.prototype = {
 		rabbitLogo.body.gravity.y = 2000;
 		rabbitLogo.body.collideWorldBounds = true;
 
-		rabbitLogo.body.bounce.y = 0.8;
+		rabbitLogo.body.bounce.y = 0.5;
+	},
+	carrotsAnimation:function(){
+		var carrotLogo = game.add.sprite((game.width/3),0,'carrot');
+		
+		game.physics.arcade.enable(carrotLogo);
+		carrotLogo.body.gravity.y = 2000;
+		carrotLogo.body.collideWorldBounds = true;
+		carrotLogo.body.bounce.y = 0.3;
+
+
 	},
 	playButton:function(){
 		var playBt = game.add.text(game.width/2,game.height/2);
@@ -26,12 +38,13 @@ GameMenu.prototype = {
 		playBt.text = "Play";
 		playBt.anchor.setTo(0.5);
 		playBt.fontSize = "200px";
-		playBt.fill = "#339900";
+		playBt.fill = "#22b14c";
 		playBt.inputEnabled = true;
 
 
 		playBt.events.onInputDown.add(function(){
 			game.state.start("Game");
+			game.pressButton.play();
 		});
 	},
 	

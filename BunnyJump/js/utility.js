@@ -111,29 +111,36 @@
     			console.log(bt.isDown);
     		});
     	});
-
      },
      gameOverMenu:function(playerManager){ 
      	var gameWidth = game.width;
      	var gameHeight = game.height;
 
-     	var finalScoreLabel = game.add.text((gameWidth/2),(gameHeight/3));
+     	var finalScoreLabel = game.add.text((gameWidth/2),(gameHeight/4));
       finalScoreLabel.font = "manamansalo";
-      finalScoreLabel.fontSize = "80px";
+      finalScoreLabel.fontSize = "120px";
      	finalScoreLabel.text = game.score;
 
-     	var repeatButton = game.add.sprite(gameWidth/2,gameHeight/2,"restartIcon");
+     	var repeatButton = game.add.sprite(gameWidth/2.5,gameHeight/2,"restartIcon");
      	repeatButton.anchor.setTo(0.5);
+      repeatButton.scale.setTo(1.5);
+
+      var exitButton = game.add.sprite(gameWidth/1.5,gameHeight/2,'concedeIcon');
+      exitButton.anchor.setTo(0.5);
+      exitButton.scale.setTo(1.3);
 
      	repeatButton.inputEnabled = true;
      	repeatButton.events.onInputDown.add(function(){
      		playerManager.playerSpeed = 300;
+        game.pressButton.play();
      		game.state.start('Game');
      	});
 
 
+      exitButton.inputEnabled = true;
+      exitButton.events.onInputDown.add(function(){
+        game.pressButton.play();
+        game.state.start('GameMenu');
+      })
      }
-
-
-
   }
