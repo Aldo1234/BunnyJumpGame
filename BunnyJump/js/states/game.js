@@ -81,11 +81,7 @@ function Game(){
  		
 		if(this.playerManager.player.alive){
 			if(this.playerManager.player.body.y == game.world.height - this.playerManager.player.height){
- 				this.playerManager.player.kill();
- 				if(navigator.vibrate){
- 			 	 navigator.vibrate(200);
- 				}
- 				this.gameUtility.gameOverMenu(this.playerManager);
+ 				this.gameOver();
 			}
 			if((this.spaceBarKey.isDown || this.game.jumpButton.isDown) && this.playerManager.player.body.wasTouching.down){
 				this.playerManager.jump();
@@ -208,8 +204,22 @@ function Game(){
 
 	},
 	gameOver:function(){
+		var higher;
 		this.playerManager.player.kill();
-		this.playerManager.playerSpeed =300;
-		game.state.restart();
+ 		if(navigator.vibrate){
+ 			navigator.vibrate(200);
+ 		}
+		if(localStorage.getItem('higherScore') == null){
+			localStorage.setItem('higherScore',game.score);
+			higher = true;
+		}else{
+			if(localStorage.getItem('higherScore') < game.score){
+				localStorage.setItem('higherScore',game.score);
+				higher = true;
+			}else{
+				higher = false
+			}
+		}
+		this.gameUtility.gameOverMenu(this.playerManager,higher);	
 	}
 }

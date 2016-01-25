@@ -112,7 +112,7 @@
     		});
     	});
      },
-     gameOverMenu:function(playerManager){ 
+     gameOverMenu:function(playerManager,higher){ 
      	var gameWidth = game.width;
      	var gameHeight = game.height;
 
@@ -120,6 +120,11 @@
       finalScoreLabel.font = "manamansalo";
       finalScoreLabel.fontSize = "120px";
      	finalScoreLabel.text = game.score;
+      if(higher){
+        finalScoreLabel.fill = "#22b14c";
+      }else{
+        finalScoreLabel.fill = "#5c5c3d";
+      }
 
      	var repeatButton = game.add.sprite(gameWidth/2.5,gameHeight/2,"restartIcon");
      	repeatButton.anchor.setTo(0.5);
