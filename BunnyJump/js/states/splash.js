@@ -16,7 +16,7 @@ Splash.prototype = {
 	loadImages:function(){
 		game.load.image('normalTile','assets/dirt_grass.png');
 		game.load.image('brokenTile','assets/broken_dirt_grass.png');
-		game.load.spritesheet('player','assets/spriteSheetCoelho.png',44,70);
+		game.load.spritesheet('player','assets/spriteSheetCoelho.png',44.1,70);
 
 		game.load.image('carrot','assets/carrot.png');
 		game.load.image('carrotIcon','assets/carrots.png');

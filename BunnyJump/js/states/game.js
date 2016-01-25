@@ -187,10 +187,11 @@ function Game(){
 	scorePt:function(){
 		game.score += 1;
 		game.scoreLabel.text = game.score;
+		var scoreLabelTween = game.add.tween(game.scoreLabel.scale).to({x:2,y:2},200,Phaser.Easing.Linear.In,true).to({x:1,y:1},200,Phaser.Easing.Linear.In,true);
 	},
 
 	updateDifficulty:function(){
-		if(game.score % 3 == 0 && game.score <20 ){
+		if(game.score % 3 == 0 && game.score <16 ){
 			game.delayGeradorPlataforma -= 170;
 			game.scoreAntigo = game.score;
 		}

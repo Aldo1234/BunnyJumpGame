@@ -70,6 +70,8 @@
       game.scoreLabel.font = 'manamansalo';
       game.scoreLabel.fontSize = "40px";
 
+
+
      },
      createVisualControls:function(){
      	var gameWidth = game.width;
@@ -116,7 +118,7 @@
      	var gameWidth = game.width;
      	var gameHeight = game.height;
 
-     	var finalScoreLabel = game.add.text((gameWidth/2),(gameHeight/4));
+     	var finalScoreLabel = game.add.text((gameWidth/2.02),(gameHeight/4));
       finalScoreLabel.font = "manamansalo";
       finalScoreLabel.fontSize = "120px";
      	finalScoreLabel.text = game.score;
@@ -126,7 +128,9 @@
         finalScoreLabel.fill = "#5c5c3d";
       }
 
-     	var repeatButton = game.add.sprite(gameWidth/2.5,gameHeight/2,"restartIcon");
+      var finalScoreLabelTween = game.add.tween(finalScoreLabel.scale).to({ x: 1.5, y: 1.5},100,Phaser.Easing.Linear.In,true).to({ x: 1, y: 1},500,Phaser.Easing.Linear.In,true);
+
+     	var repeatButton = game.add.sprite(gameWidth/3,gameHeight/2,"restartIcon");
      	repeatButton.anchor.setTo(0.5);
       repeatButton.scale.setTo(1.5);
 
