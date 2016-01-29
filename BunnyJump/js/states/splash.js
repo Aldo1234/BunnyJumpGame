@@ -26,6 +26,8 @@ Splash.prototype = {
 		game.load.image('pauseIcon','assets/icons/pause.png');
 		game.load.image('restartIcon','assets/icons/return.png');
 		game.load.image('concedeIcon','assets/icons/cross.png');
+		game.load.image('audioOnIcon','assets/icons/audioOn.png');
+		game.load.image('audioOffIcon','assets/icons/audioOff.png');
 
 		//Buttons_up
 		game.load.image('leftButton_up','assets/controlIcons/arrowLeft_up.png');

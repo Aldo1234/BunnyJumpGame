@@ -4,6 +4,7 @@
 
 	var game = new Phaser.Game(width, height, Phaser.AUTO, 'game',Main = function(){});
 	var GAME_UTILITY = new Utility(game);
+	var GAME_AUDIO_ON = true;
 	 
 	Main.prototype = {
 		loadStates:function(){

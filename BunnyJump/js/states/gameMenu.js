@@ -44,7 +44,9 @@ GameMenu.prototype = {
 
 		playBt.events.onInputDown.add(function(){
 			game.state.start("Game");
-			game.pressButton.play();
+			if(GAME_AUDIO_ON){
+  			  game.pressButton.play();
+			}
 		});
 	},
 	

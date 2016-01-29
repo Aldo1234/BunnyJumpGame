@@ -59,6 +59,27 @@
     		game.pauseButton.loadTexture('pauseIcon');
     	});
      },
+     audioHandlerButton:function(){
+      if(GAME_AUDIO_ON){
+        game.audioButton = game.add.sprite(50,150,'audioOnIcon');
+      }else{
+        game.audioButton = game.add.sprite(50,150,'audioOffIcon');
+      }
+      game.audioButton.anchor.setTo(0.5);
+
+      game.audioButton.inputEnabled = true;
+
+      game.audioButton.events.onInputDown.add(function(){
+        if(GAME_AUDIO_ON){
+          game.audioButton.loadTexture('audioOffIcon');
+          GAME_AUDIO_ON = false;
+          //TODO
+        }else{
+          game.audioButton.loadTexture('audioOnIcon');
+          GAME_AUDIO_ON = true;
+        }
+      })
+     },
      showScore:function(){
 
     	game.scoreCarrot = game.add.sprite((game.width-40),10,'carrotIcon');
@@ -66,7 +87,6 @@
 
 
       game.scoreLabel = game.add.text((game.width-60),25,"0");
-      
       game.scoreLabel.font = 'manamansalo';
       game.scoreLabel.fontSize = "40px";
 
@@ -118,7 +138,14 @@
      	var gameWidth = game.width;
      	var gameHeight = game.height;
 
-     	var finalScoreLabel = game.add.text((gameWidth/2.02),(gameHeight/4));
+      //Questões de alinhamento
+      if(game.score >= 10){
+        scoreLabelX = gameWidth/2.1;
+      }else{
+        scoreLabelX = gameWidth/2;
+      }
+
+     	var finalScoreLabel = game.add.text(scoreLabelX,-1);
       finalScoreLabel.font = "manamansalo";
       finalScoreLabel.fontSize = "120px";
      	finalScoreLabel.text = game.score;
@@ -128,27 +155,31 @@
         finalScoreLabel.fill = "#5c5c3d";
       }
 
-      var finalScoreLabelTween = game.add.tween(finalScoreLabel.scale).to({ x: 1.5, y: 1.5},100,Phaser.Easing.Linear.In,true).to({ x: 1, y: 1},500,Phaser.Easing.Linear.In,true);
+      var finalScoreLabelTween = game.add.tween(finalScoreLabel).to({y:gameHeight/6},800,Phaser.Easing.Bounce.Out,true)
 
-     	var repeatButton = game.add.sprite(gameWidth/3,gameHeight/2,"restartIcon");
+     	var repeatButton = game.add.sprite(gameWidth/2.5,gameHeight/2,"restartIcon");
      	repeatButton.anchor.setTo(0.5);
-      repeatButton.scale.setTo(1.5);
+      game.add.tween(repeatButton.scale).to({x:2.8,y:2.8},100,Phaser.Easing.Linear.In,true).to({x:1.8,y:1.8},250,Phaser.Easing.Linear.In,true);
 
-      var exitButton = game.add.sprite(gameWidth/1.5,gameHeight/2,'concedeIcon');
+      var exitButton = game.add.sprite(gameWidth/1.6 ,gameHeight/2,'concedeIcon');
       exitButton.anchor.setTo(0.5);
-      exitButton.scale.setTo(1.3);
+      game.add.tween(exitButton.scale).to({x:2.8,y:2.8},100,Phaser.Easing.Linear.In,true).to({x:1.5,y:1.5},250,Phaser.Easing.Linear.In,true);
 
      	repeatButton.inputEnabled = true;
      	repeatButton.events.onInputDown.add(function(){
      		playerManager.playerSpeed = 300;
-        game.pressButton.play();
+        if(GAME_AUDIO_ON){
+         game.pressButton.play();
+        }
      		game.state.start('Game');
      	});
 
 
       exitButton.inputEnabled = true;
       exitButton.events.onInputDown.add(function(){
-        game.pressButton.play();
+        if(GAME_AUDIO_ON){
+          game.pressButton.play();
+        }
         game.state.start('GameMenu');
       })
      }

@@ -26,6 +26,7 @@ function Game(){
 
 		this.gameUtility.showScore();
 		this.gameUtility.pauseButton();
+		this.gameUtility.audioHandlerButton();
 
 		this.soundsConfig();
 
@@ -174,20 +175,21 @@ function Game(){
 	//MÉTODO DE DEBUG
 		var fonte = "25px Arial"
 		game.labelVelocidade = game.add.text(5,5,"",{font:fonte,fill:"#0000"});
-
 	},
 
 	collectCarrot:function(player,carrot){
 		carrot.kill();
 		this.scorePt();
 		this.updateDifficulty();
-		game.hitCarrotSound.play();
+		if(GAME_AUDIO_ON){
+		 game.hitCarrotSound.play();
+		}
 	},
 
 	scorePt:function(){
 		game.score += 1;
 		game.scoreLabel.text = game.score;
-		var scoreLabelTween = game.add.tween(game.scoreLabel.scale).to({x:2,y:2},200,Phaser.Easing.Linear.In,true).to({x:1,y:1},200,Phaser.Easing.Linear.In,true);
+		var scoreLabelTween = game.add.tween(game.scoreLabel.scale).to({x:1.5,y:1.5},100,Phaser.Easing.Linear.In,true).to({x:1,y:1},100,Phaser.Easing.Linear.In,true);
 	},
 
 	updateDifficulty:function(){
