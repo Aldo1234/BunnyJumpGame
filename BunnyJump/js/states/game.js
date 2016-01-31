@@ -1,7 +1,7 @@
 function Game(){
 	this.cursors = game.input.keyboard.createCursorKeys();
 	this.spaceBarKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-	this.playerManager = new PlayerManager();
+	this.playerManager = PLAYER_MANAGER;
 	this.gameUtility = GAME_UTILITY;
 
 }
@@ -58,6 +58,8 @@ function Game(){
 		game.playerJumped = true;	
 	
 		game.spacing = 3.8*game.tileHeight;
+
+		game.checkHighScore = false;
 
 
 		game.itemsSpeed = 150.0;
@@ -189,7 +191,13 @@ function Game(){
 	scorePt:function(){
 		game.score += 1;
 		game.scoreLabel.text = game.score;
-		var scoreLabelTween = game.add.tween(game.scoreLabel.scale).to({x:1.5,y:1.5},100,Phaser.Easing.Linear.In,true).to({x:1,y:1},100,Phaser.Easing.Linear.In,true);
+		var scoreLabelTween = game.add.tween(game.scoreLabel.scale).to({x:1.5,y:1.5},100,Phaser.Easing.Linear.In,true).to({x:1,y:1},2000,Phaser.Easing.Linear.In,true);
+		if(!game.checkHighScore){
+			if(game.score > localStorage.getItem("higherScore")){
+				GAME_UTILITY.newRecordNotification();
+				game.checkHighScore = true;
+			}
+		}
 	},
 
 	updateDifficulty:function(){

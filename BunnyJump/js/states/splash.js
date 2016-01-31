@@ -57,6 +57,7 @@ Splash.prototype = {
 
 	},
 	create:function(){
+		localStorage.clear();
 		game.state.start("GameMenu");
 	}
 }

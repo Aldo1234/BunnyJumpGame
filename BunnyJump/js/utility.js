@@ -155,24 +155,39 @@
         finalScoreLabel.fill = "#5c5c3d";
       }
 
-      var finalScoreLabelTween = game.add.tween(finalScoreLabel).to({y:gameHeight/6},800,Phaser.Easing.Bounce.Out,true)
 
-     	var repeatButton = game.add.sprite(gameWidth/2.5,gameHeight/2,"restartIcon");
-     	repeatButton.anchor.setTo(0.5);
+      var bestScore = game.add.text(scoreLabelX - 40,-5);
+      bestScore.font = "manamansalo";
+      bestScore.fontSize = "30px";
+      bestScore.text = "Your best: " + localStorage.getItem('higherScore');
+
+      var finalScoreLabelTween = game.add.tween(finalScoreLabel).to({y:gameHeight/6},800,Phaser.Easing.Bounce.Out,true)
+      var bestScoreTween = game.add.tween(bestScore).to({y:20},800,Phaser.Easing.Bounce.Out,true);
+
+
+      this.addRepeatAndExitButton();
+
+
+   
+     },
+     addRepeatAndExitButton:function(){
+
+      var repeatButton = game.add.sprite(game.width/2.5,game.height/2,"restartIcon");
+      repeatButton.anchor.setTo(0.5);
       game.add.tween(repeatButton.scale).to({x:2.8,y:2.8},100,Phaser.Easing.Linear.In,true).to({x:1.8,y:1.8},250,Phaser.Easing.Linear.In,true);
 
-      var exitButton = game.add.sprite(gameWidth/1.6 ,gameHeight/2,'concedeIcon');
+      var exitButton = game.add.sprite(game.width/1.6 ,game.height/2,'concedeIcon');
       exitButton.anchor.setTo(0.5);
       game.add.tween(exitButton.scale).to({x:2.8,y:2.8},100,Phaser.Easing.Linear.In,true).to({x:1.5,y:1.5},250,Phaser.Easing.Linear.In,true);
 
-     	repeatButton.inputEnabled = true;
-     	repeatButton.events.onInputDown.add(function(){
-     		playerManager.playerSpeed = 300;
+      repeatButton.inputEnabled = true;
+      repeatButton.events.onInputDown.add(function(){
+        PLAYER_MANAGER.player.playerSpeed = 300;
         if(GAME_AUDIO_ON){
          game.pressButton.play();
         }
-     		game.state.start('Game');
-     	});
+        game.state.start('Game');
+      });
 
 
       exitButton.inputEnabled = true;
@@ -182,5 +197,13 @@
         }
         game.state.start('GameMenu');
       })
+     },
+     newRecordNotification:function(){
+      var newBestScore = game.add.text(game.width/2,-5);
+      newBestScore.font = "manamansalo";
+      newBestScore.fontSize = "30px";
+      newBestScore.text = "New Record!";
+
+      var newBestScoreTween = game.add.tween(newBestScore).to({y:20},200,Phaser.Easing.Linear.In,true).to({y:-50},800,Phaser.Easing.Linear.In,true);
      }
   }

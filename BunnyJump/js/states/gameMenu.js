@@ -42,12 +42,14 @@ GameMenu.prototype = {
 		playBt.inputEnabled = true;
 
 
+
 		playBt.events.onInputDown.add(function(){
 			game.state.start("Game");
 			if(GAME_AUDIO_ON){
   			  game.pressButton.play();
 			}
 		});
+
 	},
 	
 }
