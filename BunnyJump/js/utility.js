@@ -82,13 +82,14 @@
      },
      showScore:function(){
 
-    	game.scoreCarrot = game.add.sprite((game.width-40),10,'carrotIcon');
-    	game.scoreCarrot.scale.setTo(0.6);
+    	game.scoreCarrot = game.add.sprite((game.width-40),30,'carrotIcon');
+    	game.scoreCarrot.scale.setTo(1);
+      game.scoreCarrot.anchor.setTo(0.5);
 
 
-      game.scoreLabel = game.add.text((game.width-60),25,"0");
+      game.scoreLabel = game.add.text((game.width-100),30,"0");
       game.scoreLabel.font = 'manamansalo';
-      game.scoreLabel.fontSize = "40px";
+      game.scoreLabel.fontSize = "55px";
 
 
 
@@ -140,14 +141,14 @@
 
       //Questões de alinhamento
       if(game.score >= 10){
-        scoreLabelX = gameWidth/2.1;
+        scoreLabelX = gameWidth/2.5;
       }else{
-        scoreLabelX = gameWidth/2;
+        scoreLabelX = gameWidth/2.2;
       }
 
      	var finalScoreLabel = game.add.text(scoreLabelX,-1);
       finalScoreLabel.font = "manamansalo";
-      finalScoreLabel.fontSize = "120px";
+      finalScoreLabel.fontSize = "250px";
      	finalScoreLabel.text = game.score;
       if(higher){
         finalScoreLabel.fill = "#22b14c";
@@ -158,10 +159,10 @@
 
       var bestScore = game.add.text(scoreLabelX - 40,-5);
       bestScore.font = "manamansalo";
-      bestScore.fontSize = "30px";
+      bestScore.fontSize = "45px";
       bestScore.text = "Your best: " + localStorage.getItem('higherScore');
 
-      var finalScoreLabelTween = game.add.tween(finalScoreLabel).to({y:gameHeight/6},800,Phaser.Easing.Bounce.Out,true)
+      var finalScoreLabelTween = game.add.tween(finalScoreLabel).to({y:gameHeight/4},1000,Phaser.Easing.Bounce.Out,true)
       var bestScoreTween = game.add.tween(bestScore).to({y:20},800,Phaser.Easing.Bounce.Out,true);
 
 
@@ -172,13 +173,13 @@
      },
      addRepeatAndExitButton:function(){
 
-      var repeatButton = game.add.sprite(game.width/2.5,game.height/2,"restartIcon");
+      var repeatButton = game.add.sprite(game.width/3.5,game.height/2,"restartIcon");
       repeatButton.anchor.setTo(0.5);
-      game.add.tween(repeatButton.scale).to({x:2.8,y:2.8},100,Phaser.Easing.Linear.In,true).to({x:1.8,y:1.8},250,Phaser.Easing.Linear.In,true);
+      game.add.tween(repeatButton.scale).to({x:3,y:3},100,Phaser.Easing.Linear.In,true).to({x:2.5,y:2.5},250,Phaser.Easing.Linear.In,true);
 
-      var exitButton = game.add.sprite(game.width/1.6 ,game.height/2,'concedeIcon');
+      var exitButton = game.add.sprite(game.width/1.4 ,game.height/2,'concedeIcon');
       exitButton.anchor.setTo(0.5);
-      game.add.tween(exitButton.scale).to({x:2.8,y:2.8},100,Phaser.Easing.Linear.In,true).to({x:1.5,y:1.5},250,Phaser.Easing.Linear.In,true);
+      game.add.tween(exitButton.scale).to({x:3,y:3},100,Phaser.Easing.Linear.In,true).to({x:2.2,y:2.2},250,Phaser.Easing.Linear.In,true);
 
       repeatButton.inputEnabled = true;
       repeatButton.events.onInputDown.add(function(){
@@ -201,7 +202,7 @@
      newRecordNotification:function(){
       var newBestScore = game.add.text(game.width/2,-5);
       newBestScore.font = "manamansalo";
-      newBestScore.fontSize = "30px";
+      newBestScore.fontSize = "45px";
       newBestScore.text = "New Record!";
 
       var newBestScoreTween = game.add.tween(newBestScore).to({y:20},200,Phaser.Easing.Linear.In,true).to({y:-50},800,Phaser.Easing.Linear.In,true);

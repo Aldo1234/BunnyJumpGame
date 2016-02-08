@@ -39,7 +39,6 @@ function Game(){
 		game.physics.arcade.collide(this.playerManager.player,game.brokenTileGroup,this.collisionCallBack);
 
 		this.playerMotionLogic();
-		
 		game.itemsSpeed += 0.05;
 		game.physics.arcade.overlap(this.playerManager.player,game.carrots,this.collectCarrot,null,this);
 
@@ -61,6 +60,7 @@ function Game(){
 
 		game.checkHighScore = false;
 
+		game.antigaPassagem = 0;
 
 		game.itemsSpeed = 150.0;
 		game.score = 0;
@@ -107,6 +107,7 @@ function Game(){
  	},
  	soundsConfig:function() {
  		game.hitCarrotSound = game.add.audio('hitCarrot');
+ 		game.notificationSound = game.add.audio('notification');
  	},
 
 	addTile:function(x,y,immovable){
@@ -118,7 +119,6 @@ function Game(){
 		}
 		tile.body.velocity.y = game.itemsSpeed;
 		tile.body.immovable = true;
-		tile.body.allowGravity = true;
 
 		tile.outOfBoundsKill = true;
 
@@ -140,6 +140,11 @@ function Game(){
 
 		var passagem =  Math.floor(Math.random() * (tileNecessarios - 3)) + 1;
 
+		if(passagem == game.antigaPassagem){
+			passagem = Math.floor(Math.random() * (tileNecessarios - 3)) + 1; 	
+		}
+		game.antigaPassagem = passagem;
+
 		for (var i = 0; i < tileNecessarios; i++) {
 		 	if(i != passagem  && i%2 == 0 ){
 		 		this.addTile(i * game.tileWidth,y,true);
@@ -147,7 +152,6 @@ function Game(){
 		 		this.addTile(i * game.tileWidth,y,false);
 		 	}else{
 		 		this.addCarrot(i*game.tileWidth+(game.tileWidth/4),y);
-
 		 	}
 		 } 
 	},
@@ -191,10 +195,13 @@ function Game(){
 	scorePt:function(){
 		game.score += 1;
 		game.scoreLabel.text = game.score;
-		var scoreLabelTween = game.add.tween(game.scoreLabel.scale).to({x:1.5,y:1.5},100,Phaser.Easing.Linear.In,true).to({x:1,y:1},2000,Phaser.Easing.Linear.In,true);
+		var scoreLabelTween = game.add.tween(game.scoreLabel.scale).to({x:1.5,y:1.5},100,Phaser.Easing.Linear.In,true).to({x:1,y:1},200,Phaser.Easing.Linear.In,true);
 		if(!game.checkHighScore){
 			if(game.score > localStorage.getItem("higherScore")){
 				GAME_UTILITY.newRecordNotification();
+				if(GAME_AUDIO_ON){
+				  game.notificationSound.play();
+				}
 				game.checkHighScore = true;
 			}
 		}
@@ -209,8 +216,8 @@ function Game(){
 
 	 collisionCallBack:function(playerSprite,tileGroup){
 		if(tileGroup.body.touching.up){
-			tileGroup.body.immovable = false;
 			tileGroup.body.allowGravity = true;
+			tileGroup.body.immovable = false;
 		}
 
 	},

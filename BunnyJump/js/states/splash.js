@@ -11,7 +11,7 @@ Splash.prototype = {
 	loadSounds:function(){
 		game.load.audio('hitCarrot','assets/sounds/hitCarrot.wav')
 		game.load.audio('pressButton','assets/sounds/pressButton.wav');
-
+		game.load.audio('notification','assets/sounds/notification.wav');
 	},
 	loadImages:function(){
 		game.load.image('normalTile','assets/dirt_grass.png');
@@ -57,7 +57,7 @@ Splash.prototype = {
 
 	},
 	create:function(){
-		localStorage.clear();
+		//localStorage.clear();
 		game.state.start("GameMenu");
 	}
 }

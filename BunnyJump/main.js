@@ -1,6 +1,6 @@
 
-	var width = navigator.isCocoonJS ? window.innerWidth : 1000;
-	var height = navigator.isCocoonJS ? window.innerHeight : 600;
+	var width =  window.innerWidth;
+	var height = window.innerHeight;
 
 	var game = new Phaser.Game(width, height, Phaser.AUTO, 'game',Main = function(){});
 	var GAME_UTILITY = new Utility(game);
