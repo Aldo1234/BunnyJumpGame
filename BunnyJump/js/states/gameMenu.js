@@ -20,7 +20,7 @@ GameMenu.prototype = {
 		rabbitLogo.body.gravity.y = 2000;
 		rabbitLogo.body.collideWorldBounds = true;
 
-		rabbitLogo.body.bounce.y = 0.5;
+		rabbitLogo.body.bounce.y = 0.2;
 	},
 	carrotsAnimation:function(){
 		var carrotLogo = game.add.sprite((game.width/3),0,'carrot');
@@ -33,10 +33,9 @@ GameMenu.prototype = {
 
 	},
 	playButton:function(){
-		var playBt = game.add.text(game.width/2,game.height/2);
+		var playBt = game.add.text(game.width/3,-5);
 		playBt.font ="manamansalo";
 		playBt.text = "Play";
-		playBt.anchor.setTo(0.5);
 		playBt.fontSize = "200px";
 		playBt.fill = "#22b14c";
 		playBt.inputEnabled = true;
@@ -49,6 +48,8 @@ GameMenu.prototype = {
   			  game.pressButton.play();
 			}
 		});
+
+		game.add.tween(playBt).to({y:game.height/3},2000,Phaser.Easing.Bounce.Out,true)
 
 	},
 	

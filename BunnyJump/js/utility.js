@@ -52,11 +52,12 @@
     	game.pauseButton.events.onInputUp.add(function(target) {
     		game.paused=true;
     		game.pauseButton.loadTexture('playIcon');
-    	})
+      })
 
-    	game.input.onDown.add(function(){
-    		game.paused=false;
-    		game.pauseButton.loadTexture('pauseIcon');
+      game.input.onDown.add(function(){
+        game.paused=false;
+        game.pauseButton.loadTexture('pauseIcon');
+        game.tempoInicio = game.time.now;
     	});
      },
      audioHandlerButton:function(){

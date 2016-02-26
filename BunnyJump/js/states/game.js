@@ -41,7 +41,6 @@ function Game(){
 		this.playerMotionLogic();
 		game.itemsSpeed += 0.05;
 		game.physics.arcade.overlap(this.playerManager.player,game.carrots,this.collectCarrot,null,this);
-
 	},
 
 	initConfig:function(){
@@ -180,7 +179,7 @@ function Game(){
  	showSpeed:function(){
 	//MÉTODO DE DEBUG
 		var fonte = "25px Arial"
-		game.labelVelocidade = game.add.text(5,5,"",{font:fonte,fill:"#0000"});
+		game.labelVelocidade = game.add.text(5,5,game.time.fps,{font:fonte,fill:"#0000"});
 	},
 
 	collectCarrot:function(player,carrot){
