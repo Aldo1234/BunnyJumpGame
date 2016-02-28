@@ -33,7 +33,8 @@ GameMenu.prototype = {
 
 	},
 	playButton:function(){
-		var playBt = game.add.text(game.width/3,-5);
+		var playBt = game.add.text(game.width/2,game.height/2);
+		playBt.anchor.setTo(0.5);
 		playBt.font ="manamansalo";
 		playBt.text = "Play";
 		playBt.fontSize = "200px";
@@ -49,7 +50,6 @@ GameMenu.prototype = {
 			}
 		});
 
-		game.add.tween(playBt).to({y:game.height/3},2000,Phaser.Easing.Bounce.Out,true)
 
 	},
 	

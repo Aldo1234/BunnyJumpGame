@@ -55,9 +55,11 @@
       })
 
       game.input.onDown.add(function(){
-        game.paused=false;
-        game.pauseButton.loadTexture('pauseIcon');
-        game.tempoInicio = game.time.now;
+        if(game.paused){
+          game.paused=false;
+          game.pauseButton.loadTexture('pauseIcon');
+          game.tempoInicio = game.time.now;
+        }
     	});
      },
      audioHandlerButton:function(){
@@ -103,14 +105,14 @@
       var rightButtonImage = game.cache.getImage("rightButton_up");
       var jumpButtonImage = game.cache.getImage("jumpButton_up");
 
-     	game.leftButton = game.add.sprite(10,gameHeight - ((leftButtonImage.height*1.5)+30),"leftButton_up");
-     	game.leftButton.scale.setTo(2);
+     	game.leftButton = game.add.sprite(10,gameHeight - ((leftButtonImage.height*1.5)+55),"leftButton_up");
+     	game.leftButton.scale.setTo(2.5);
 
-     	game.rightButton = game.add.sprite(200,gameHeight-((rightButtonImage.height*1.5) +30),"rightButton_up");
-     	game.rightButton.scale.setTo(2);
+     	game.rightButton = game.add.sprite(240,gameHeight-((rightButtonImage.height*1.5) +55),"rightButton_up");
+     	game.rightButton.scale.setTo(2.5);
 
-     	game.jumpButton = game.add.sprite((gameWidth-((jumpButtonImage.width*1.5)+30)),(gameHeight-((jumpButtonImage.height*1.5)+30)),"jumpButton_up");
-     	game.jumpButton.scale.setTo(2);
+     	game.jumpButton = game.add.sprite((gameWidth-((jumpButtonImage.width*1.5)+65)),(gameHeight-((jumpButtonImage.height*1.5)+65)),"jumpButton_up");
+     	game.jumpButton.scale.setTo(2.5);
 
      },
      visualControlsFunctions:function(){
@@ -124,7 +126,6 @@
           bt.loadTexture(imageStringUp);
 
     			bt.isDown = true;
-    			console.log(bt.isDown);
     		});
     		bt.events.onInputUp.add(function(){
           var imageStringDown = bt.key;
@@ -132,7 +133,6 @@
           bt.loadTexture(imageStringDown)
 
     			bt.isDown = false;
-    			console.log(bt.isDown);
     		});
     	});
      },
@@ -149,7 +149,7 @@
 
      	var finalScoreLabel = game.add.text(scoreLabelX,-1);
       finalScoreLabel.font = "manamansalo";
-      finalScoreLabel.fontSize = "250px";
+      finalScoreLabel.fontSize = "230px";
      	finalScoreLabel.text = game.score;
       if(higher){
         finalScoreLabel.fill = "#22b14c";
@@ -158,13 +158,13 @@
       }
 
 
-      var bestScore = game.add.text(scoreLabelX - 40,-5);
+      var bestScore = game.add.text(game.width/2, 20);
+      bestScore.anchor.setTo(0.5);
       bestScore.font = "manamansalo";
-      bestScore.fontSize = "45px";
+      bestScore.fontSize = "50px";
       bestScore.text = "Your best: " + localStorage.getItem('higherScore');
 
       var finalScoreLabelTween = game.add.tween(finalScoreLabel).to({y:gameHeight/4},1000,Phaser.Easing.Bounce.Out,true)
-      var bestScoreTween = game.add.tween(bestScore).to({y:20},800,Phaser.Easing.Bounce.Out,true);
 
 
       this.addRepeatAndExitButton();
