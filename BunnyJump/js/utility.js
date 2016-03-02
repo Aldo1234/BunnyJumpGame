@@ -157,14 +157,15 @@
         finalScoreLabel.fill = "#5c5c3d";
       }
 
+      var finalScoreLabelTween = game.add.tween(finalScoreLabel).to({y:gameHeight/4},1000,Phaser.Easing.Bounce.Out,true)
 
-      var bestScore = game.add.text(game.width/2, 20);
-      bestScore.anchor.setTo(0.5);
+
+      var bestScore = game.add.text(game.width/2.8, 20);
       bestScore.font = "manamansalo";
       bestScore.fontSize = "50px";
       bestScore.text = "Your best: " + localStorage.getItem('higherScore');
+      bestScore.inputEnabled = true;
 
-      var finalScoreLabelTween = game.add.tween(finalScoreLabel).to({y:gameHeight/4},1000,Phaser.Easing.Bounce.Out,true)
 
 
       this.addRepeatAndExitButton();
