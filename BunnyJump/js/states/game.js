@@ -183,12 +183,12 @@ function Game(){
 	},
 
 	collectCarrot:function(player,carrot){
-		carrot.kill();
 		this.scorePt();
 		this.updateDifficulty();
 		if(GAME_AUDIO_ON){
 		 game.hitCarrotSound.play();
 		}
+		carrot.kill();
 	},
 
 	scorePt:function(){
@@ -215,7 +215,7 @@ function Game(){
 
 	 collisionCallBack:function(playerSprite,tileGroup){
 		if(tileGroup.body.touching.up){
-			tileGroup.body.allowGravity = true;
+			tileGroup.body.gravity.y = 400;
 			tileGroup.body.immovable = false;
 		}
 
