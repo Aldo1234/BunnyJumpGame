@@ -6,7 +6,7 @@ Phaser game about a cute bunny that jumps! :rabbit:
 
 ## How it works
 
-As a bunny,you have to try to get as many carrots as possible.But there is a challenge.The ground falls with you step in certain points, Beware! :warning:
+As a bunny,you have to try to get as many carrots as possible.But there is a challenge.The ground falls if you step in certain points, Beware! :warning:
 
 The controls are simple: 
 
