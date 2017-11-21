@@ -5,7 +5,7 @@ Phaser game about a cute bunny that jumps! :rabbit:
 ![Alt text](/BunnyJump/assets/home_scene.png)
 
 ## Purpose
-I uploaded this project for everyone who wants to learn Phaser. Download it and mondify as you want. 
+I uploaded this project to everyone who wants to learn Phaser. Download it and modify as you want. 
 
 ## How it works
 
